@@ -4,7 +4,7 @@ var sports = ['Drift', 'Nascar', 'Formula One'];
 
 function motorSpotGifs() {
     var mSport = $(this).attr('data-name');
-    var apiKey = 'api_key=dc6zaTOxFJmzC&limit=10';
+    var apiKey = config.SECRET_API_KEY;
     var queryURL = 'https://api.giphy.com/v1/gifs/search?q=' + mSport + '&rating=pg-13&' + apiKey;
     //gets the data from the api
     $.ajax({
