@@ -1,7 +1,22 @@
 
 var sports = ['Drift', 'Nascar', 'Formula One'];
 var config = "/config.js/";
+var val = "";
+var resp;
+var getGifts = (val) => {
+    $.ajax({
+        url: val,
+        method: "GET",
+        }).done((resp) => {
+            return resp;
+        });
+};
+var apiEndpoint = (searchTerm) =>{ return `https://api.giphy.com/v1/gifs/search?q=${searchTerm}&rating=pg-13&api_key=${apiKey}`};
 
+
+$("#btn").on('click', function(e) {
+    e.preventDefault(); // <==stop page refresh when search btn is clicked==>
+});
 
 function motorSpotGifs() {
     var mSport = $(this).attr('data-name');
@@ -21,7 +36,24 @@ function motorSpotGifs() {
                 var rating = results[j].rating;
                 var still = results[j].images.original_still.url;
                 var animated = results[j].images.original.url;
-                var sportsGif = $('<img>').addClass('thisGif').attr('src', still).attr('data-state', 'still').attr('data-still', still).attr('data-animate', animated);
+                var sportsGif = $('<img>').addClass('img-fluid thisGif').attr('src', still).attr('data-state', 'still').attr('data-still', still).attr('data-animate', animated);
+                var p = $('<p>').text('Rating: ' + rating);
+                $('#images').append(sportsGif).append(p);
+            }
+
+            $('#images').empty();
+            var results = response.data;
+            for (j = 0; j < results.length; j++) {
+                if (j >= 3){
+
+                }
+                //creates a new div
+                var gifContainer = $('div');
+                var className = ''
+                var rating = results[j].rating;
+                var still = results[j].images.original_still.url;
+                var animated = results[j].images.original.url;
+                var sportsGif = $('<img>').addClass('img-fluid thisGif').attr('src', still).attr('data-state', 'still').attr('data-still', still).attr('data-animate', animated);
                 var p = $('<p>').text('Rating: ' + rating);
                 $('#images').append(sportsGif).append(p);
             }
@@ -60,16 +92,20 @@ function renderButtons() {
 $("#add-button").on("click", function(event) {
     //prevents the page from refreshing everytime a new button is added
     event.preventDefault();
+
     // Deletes the movies prior to adding new movies
     $("#buttons").empty();
     // This line of code will grab the input from the textbox
     var movie = $("#user-input").val().trim();
+    //Won't add a blank button
+    if (movie.length >= 1 ){
+        // The movie from the textbox is then added to our array
+        sports.push(movie);
+        $('#user-input').val('');
+        // Calling renderButtons which handles the processing of our movie array
+        renderButtons(); 
+    } else { renderButtons(); } 
 
-    // The movie from the textbox is then added to our array
-    sports.push(movie);
-    $('#user-input').val('');
-    // Calling renderButtons which handles the processing of our movie array
-    renderButtons();
 });
 $('.sports').on('click', function() {
     //
