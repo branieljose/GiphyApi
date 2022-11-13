@@ -3,26 +3,28 @@ var sports = ['Drift', 'Nascar', 'Formula One'];
 var config = '/config.js';
 var val = "";
 var resp;
-var getGifts = (val) => {
+var getGifs = (val) => {
     console.log(val);
     $.ajax({
-        url: val,
+        url: '/search',
         method: "GET",
         }).done((resp) => {
             return resp;
         });
 };
-var apiEndpoint = (searchTerm) => {
-    let apiKey = config.SECRET_API_KEY; 
-    if(!searchTerm){
-        searchTerm = 'random'; return `https://api.giphy.com/v1/gifs/search?q=${searchTerm}&rating=pg-13&api_key=${apiKey}`
-    }else{return `https://api.giphy.com/v1/gifs/search?q=${searchTerm}&rating=pg-13&api_key=${apiKey}`}
-};
+// var apiEndpoint = (searchTerm) => {
+//     let apiKey = config.SECRET_API_KEY; 
+//     if(!searchTerm){
+//         searchTerm = 'random'; return `https://api.giphy.com/v1/gifs/search?q=${searchTerm}&rating=pg-13&api_key=${apiKey}`
+//     }else{return `https://api.giphy.com/v1/gifs/search?q=${searchTerm}&rating=pg-13&api_key=${apiKey}`}
+// };
 
-var appendGifts = (gifts) => {
+console.log('its working');
+
+var appendGifs = (gifs) => {
     $('#images').empty();
-    console.log(gifts);
-    for (j = 0; j < gifts.length; j++) {
+    console.log(gifs);
+    for (j = 0; j < gifs.length; j++) {
         //creates a new div
         var gifContainer = $('div');
         var rating = results[j].rating;
@@ -35,16 +37,16 @@ var appendGifts = (gifts) => {
 
 } 
 
-$(".btn").on('click', function(e) {
-    e.preventDefault(); // <==stop page refresh when search btn is clicked==>
+$("#btn").on('click', function(e) {
+    e.stopImmediatePropagation(); // <==stop page refresh when search btn is clicked==>
     
     let userInput = $('#floatingInputValue').val();
     console.log(`button clicked --> ${userInput}`);  
-    let link = apiEndpoint(userInput);
-    let gifts = getGifts(link);
-    console.log('gifts-->', gifts)
-    appendGifts(gifts);
-    console.log('gifts', gifts);    
+    // let link = apiEndpoint(userInput);
+    let gifs = getGifs(userInput);
+    console.log('gifs-->', gifs)
+    // appendGifts(gifts);
+        
 });
 
 // function motorSpotGifs() {

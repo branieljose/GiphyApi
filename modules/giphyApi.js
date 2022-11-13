@@ -15,7 +15,7 @@ const getGif = (arg, cb) => {
 		}
 	};
 
-	let endPoint = url(arg);
+let endPoint = url(arg);
 
 //return urls for looping and still gifs only.
 	const filterUrls = (obj) => {
@@ -29,13 +29,13 @@ const getGif = (arg, cb) => {
 		};
 		return urlArr;  
 	};
-//makes get request to api and returns the filtered data.
+//makes get request to api and returns filtered data.
 	const request = https.get(endPoint, (res) => {
 		if (res.statusCode !== 200) {
 			console.error(`Did not get an OK from the server. Code: ${res.statusCode}`);
 			res.resume();
 			return;
-		}
+		}else { console.log('success') }
 		res.on('data', (chunk) => {
 			data += chunk
 		});

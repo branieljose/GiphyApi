@@ -1,17 +1,24 @@
 require('dotenv/config');  
 const express = require("express");
+const path = require("path");
 const PORT = process.env.PORT || 3000;
 const getGif = require('./modules/giphyApi.js');
 
 
 const app = express();
 app.use( express.json() );
-// req --> incoming data, res --> outgoing data
+app.use(express.static(process.cwd() + "./public"));
+
 
 app.get('/', (req, res) => {
-    let data = getGif('', (chunk) => {
-        res.send(chunk);
-    });
+    res.sendFile(path.join(__dirname, "./index.html"));
+});
+
+app.get('/search', (req, res) => {
+    console.log(req.body);
+    // let data = getGif('', (chunk) => {
+    //     res.send(chunk);
+    // });
 });
 
 app.listen(PORT, () => {
