@@ -3,15 +3,19 @@ var sports = ['Drift', 'Nascar', 'Formula One'];
 var config = '/config.js';
 var val = "";
 var resp;
-var getGifs = (val) => {
-    console.log(val);
+
+var getGifs = (val, cb) => {
+    console.log('calling -->', val);
     $.ajax({
-        url: '/search',
+        url: `/search?q=${val}`,
         method: "GET",
         }).done((resp) => {
-            return resp;
+            console.log('response-->', resp)
+             cb(resp);
+            
         });
 };
+
 // var apiEndpoint = (searchTerm) => {
 //     let apiKey = config.SECRET_API_KEY; 
 //     if(!searchTerm){
@@ -22,7 +26,7 @@ var getGifs = (val) => {
 console.log('its working');
 
 var appendGifs = (gifs) => {
-    $('#images').empty();
+    // $('#images').empty();
     console.log(gifs);
     for (j = 0; j < gifs.length; j++) {
         //creates a new div
@@ -37,14 +41,23 @@ var appendGifs = (gifs) => {
 
 } 
 
-$("#btn").on('click', function(e) {
-    e.stopImmediatePropagation(); // <==stop page refresh when search btn is clicked==>
+$("#button").on('click', function(e) {
+    // e.stopImmediatePropagation(); // <==stop page refresh when search btn is clicked==>
+    // e.stopPropagation() 
     
+    
+
     let userInput = $('#floatingInputValue').val();
+
     console.log(`button clicked --> ${userInput}`);  
+
     // let link = apiEndpoint(userInput);
-    let gifs = getGifs(userInput);
-    console.log('gifs-->', gifs)
+
+    getGifs(userInput, (gifs) => {
+        console.log(gifs);
+    });
+
+    // console.log('gifs-->', gifs)
     // appendGifts(gifts);
         
 });
